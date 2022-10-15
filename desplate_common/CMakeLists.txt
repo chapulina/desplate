@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(desplate_empy)
+project(desplate_common)
 
 find_package(ament_cmake REQUIRED)
 
@@ -11,7 +11,7 @@ endif()
 install(
   DIRECTORY
     launch
-    urdf
+    rviz
   DESTINATION
     share/${PROJECT_NAME}/
 )
