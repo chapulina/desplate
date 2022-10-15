@@ -9,7 +9,7 @@ y_offset = $side == "left" ? $wheel_offset[1] : -$wheel_offset[1]
     <child link="<%= $side %>_wheel"/>
     <origin
       xyz="<%= $wheel_offset[0] %> <%= y_offset %> <%= $wheel_offset[2] %>"
-      rpy="-<%= Math::PI*0.5 %> 0 0" />
+      rpy="<%= -Math::PI*0.5 %> 0 0" />
     <axis xyz="0 0 1"/>
 </joint>
 <link name="<%= $side %>_wheel">

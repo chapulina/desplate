@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<%
+
+# Inputs
+chassis_size = [1.0, 0.5, 0.15]
+chassis_mass = 1.0
+
+$wheel_radius = 0.15
+$wheel_length = 0.05
+$wheel_mass = 0.5
+
+caster_radius = 0.1
+caster_mass = 0.0415553
+
+# Calculated properties
+$wheel_offset = [
+  chassis_size[0] * 0.3,
+  (chassis_size[1] + $wheel_length) * 0.5,
+  -$wheel_radius * 0.5]
+
+caster_offset = [
+  -chassis_size[0] * 0.3,
+  0,
+  -(chassis_size[2] + caster_radius) * 0.5]
+
+def template_path file_path
+  this_directory = File.dirname(__FILE__)
+  absolute_path = File.join(this_directory, file_path)
+  return ERB.new(File.read(absolute_path), nil, nil, '_sub01').result(binding)
+end
+
+def material(color_name)
+    if color_name == "grey"
+        color = "0.8 0.8 0.8 1"
+    elsif color_name == "black"
+        color = "0 0 0 1"
+    end
+
+    "<material>\n"\
+    "  <diffuse>" + color + "</diffuse>\n"\
+    "  <specular>" + color + "</specular>\n"\
+    "  <ambient>" + color + "</ambient>\n"\
+    "</material>\n"
+end
+
+%>
+<sdf version="1.7">
+<model name="vehicle">
+
+    <link name="chassis">
+        <visual name="visual">
+            <geometry>
+                <box>
+                    <size>
+                      <%= chassis_size[0] %>
+                      <%= chassis_size[1] %>
+                      <%= chassis_size[2] %>
+                    </size>
+                </box>
+            </geometry>
+            <%= material("grey") %>
+        </visual>
+        <collision name="collision">
+            <geometry>
+                <box>
+                    <size>
+                      <%= chassis_size[0] %>
+                      <%= chassis_size[1] %>
+                      <%= chassis_size[2] %>
+                    </size>
+                </box>
+            </geometry>
+        </collision>
+        <%
+        $mass = chassis_mass
+        $size = chassis_size
+        %>
+        <%= template_path("inertial_box.sdf.erb") %>
+    </link>
+
+    <% $side = "left" %>
+    <%= template_path("wheel.sdf.erb") %>
+    <% $side = "right" %>
+    <%= template_path("wheel.sdf.erb") %>
+
+    <!-- caster -->
+    <!-- TODO(chapulina) Use ball - currently doesn't work with joint_state_publisher -->
+    <joint name="caster_wheel_joint" type="fixed">
+        <parent>chassis</parent>
+        <child>caster_wheel</child>
+    </joint>
+    <link name="caster_wheel">
+        <pose>
+          <%= caster_offset[0] %>
+          <%= caster_offset[1] %>
+          <%= caster_offset[2] %>
+          0 0 0
+        </pose>
+        <visual name="visual">
+            <geometry>
+                <sphere>
+                  <radius><%= caster_radius %></radius>
+                </sphere>
+            </geometry>
+            <%= material("black") %>
+        </visual>
+        <collision name="collision">
+            <geometry>
+                <sphere>
+                  <radius><%= caster_radius %></radius>
+                </sphere>
+            </geometry>
+        </collision>
+        <%
+        $mass = caster_mass
+        $radius = caster_radius
+        %>
+        <%= template_path("inertial_sphere.sdf.erb") %>
+    </link>
+
+</model>
+</sdf>

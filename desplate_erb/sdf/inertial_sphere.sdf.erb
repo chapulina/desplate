@@ -1,0 +1,14 @@
+<%
+inertia = (2 * $mass * $radius * $radius) / 5.0
+%>
+<inertial>
+  <mass><%= $mass %></mass>
+  <inertia>
+    <ixx><%= inertia %></ixx>
+    <ixy>0.0</ixy>
+    <ixz>0.0</ixz>
+    <iyy><%= inertia %></iyy>
+    <iyz>0.0</iyz>
+    <izz><%= inertia %></izz>
+  </inertia>
+</inertial>

@@ -30,14 +30,14 @@ def generate_launch_description():
     template_path = os.path.join(pkg, 'urdf', 'vehicle.urdf.erb')
 
     # This line generates a URDF file from an ERB template
-    template_str = subprocess.run(['erb', template_path], capture_output=True).stdout.decode()
+    description_str = subprocess.run(['erb', template_path], capture_output=True).stdout.decode()
 
     # Visualize on RViz
     pkg_desplate_common = get_package_share_directory('desplate_common')
     visualize = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
             pkg_desplate_common, 'launch', 'visualize.launch.py')]),
-        launch_arguments=[('template_str', template_str)],
+        launch_arguments=[('description_str', description_str)],
     )
 
     return LaunchDescription([

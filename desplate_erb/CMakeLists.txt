@@ -11,6 +11,7 @@ endif()
 install(
   DIRECTORY
     launch
+    sdf
     urdf
   DESTINATION
     share/${PROJECT_NAME}/

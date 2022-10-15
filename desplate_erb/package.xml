@@ -13,11 +13,10 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <exec_depend>joint_state_publisher</exec_depend>
-  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>desplate_common</exec_depend>
   <exec_depend>ros2launch</exec_depend>
   <exec_depend>ruby</exec_depend>
-  <exec_depend>rviz2</exec_depend>
+  <exec_depend>sdformat_urdf</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
