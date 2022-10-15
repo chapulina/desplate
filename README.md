@@ -52,7 +52,7 @@ Description formats:
 
     ![vehicle_rviz](images/vehicle_rviz.png)
 
-1. Also try checking the inertia visualization (also set transparency to 0.5):
+1. Also try checking the inertia visualization:
 
     ![vehicle_rviz](images/vehicle_rviz_inertia.png)
 

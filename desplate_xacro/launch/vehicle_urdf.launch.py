@@ -31,14 +31,14 @@ def generate_launch_description():
     template_path = os.path.join(pkg, 'urdf', 'vehicle.urdf.xacro')
 
     # This line generates a description file from a Xacro template
-    template_str = xacro.process_file(template_path).toxml()
+    description_str = xacro.process_file(template_path).toxml()
 
     # Visualize on RViz
     pkg_desplate_common = get_package_share_directory('desplate_common')
     visualize = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
             pkg_desplate_common, 'launch', 'visualize.launch.py')]),
-        launch_arguments=[('template_str', template_str)],
+        launch_arguments=[('description_str', description_str)],
     )
 
     return LaunchDescription([
