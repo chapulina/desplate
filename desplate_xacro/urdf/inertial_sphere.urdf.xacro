@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+    <xacro:macro name="inertial_sphere" params="mass radius">
+        <xacro:property
+          name="inertia"
+          value="${(2 * mass * radius * radius) / 5.0}"/>
+        <inertial>
+            <mass value="${mass}" />
+            <inertia
+              ixx="${inertia}"
+              ixy="0.0"
+              ixz="0.0"
+              iyy="${inertia}"
+              iyz="0.0"
+              izz="${inertia}" />
+        </inertial>
+    </xacro:macro>
+
+</robot>

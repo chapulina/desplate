@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<%
+
+# Inputs
+chassis_size = [1.0, 0.5, 0.15]
+chassis_mass = 1.0
+
+$wheel_radius = 0.15
+$wheel_length = 0.05
+$wheel_mass = 0.5
+
+caster_radius = 0.1
+caster_mass = 0.0415553
+
+# Calculated properties
+$wheel_offset = [
+  chassis_size[0] * 0.3,
+  (chassis_size[1] + $wheel_length) * 0.5,
+  -$wheel_radius * 0.5]
+
+caster_offset = [
+  -chassis_size[0] * 0.3,
+  0,
+  -(chassis_size[2] + caster_radius) * 0.5]
+
+def template_path file_path
+  this_directory = File.dirname(__FILE__)
+  absolute_path = File.join(this_directory, file_path)
+  return ERB.new(File.read(absolute_path), nil, nil, '_sub01').result(binding)
+end
+
+%>
+<robot name="vehicle">
+
+    <material name="grey">
+        <color rgba="0.8 0.8 0.8 1" />
+    </material>
+
+    <material name="black">
+        <color rgba="0 0 0 1"/>
+    </material>
+
+    <link name="chassis">
+        <visual>
+            <geometry>
+                <box size="<%= chassis_size[0] %> <%= chassis_size[1] %> <%= chassis_size[2] %>"/>
+            </geometry>
+            <material name="grey"/>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="<%= chassis_size[0] %> <%= chassis_size[1] %> <%= chassis_size[2] %>"/>
+            </geometry>
+        </collision>
+        <%
+        $mass = chassis_mass
+        $size = chassis_size
+        %>
+        <%= template_path("inertial_box.urdf.erb") %>
+    </link>
+
+    <% $side = "left" %>
+    <%= template_path("wheel.urdf.erb") %>
+    <% $side = "right" %>
+    <%= template_path("wheel.urdf.erb") %>
+
+    <!-- caster -->
+    <joint name="caster_wheel_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="caster_wheel"/>
+        <origin xyz="<%= caster_offset[0] %> <%= caster_offset[1] %> <%= caster_offset[2] %>"/>
+    </joint>
+    <link name="caster_wheel">
+        <visual>
+            <geometry>
+                <sphere radius="<%= caster_radius %>"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="<%= caster_radius %>"/>
+            </geometry>
+        </collision>
+        <%
+        $mass = caster_mass
+        $radius = caster_radius
+        %>
+        <%= template_path("inertial_sphere.urdf.erb") %>
+    </link>
+
+</robot>
