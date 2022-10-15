@@ -28,19 +28,23 @@ import em
 def generate_launch_description():
 
     pkg = os.path.join(get_package_share_directory('desplate_empy'))
-    template_path = os.path.join(pkg, 'urdf', 'vehicle.urdf.em')
+    template_path = os.path.join(pkg, 'sdf', 'vehicle.sdf.em')
 
-    # These 3 lines generate a URDF file from an EmPy template
+    # These 3 lines generate a description file from an EmPy template
     with open(template_path) as template_file:
         template = template_file.read()
-    urdf_string = em.expand(template, {})
+    description_str = em.expand(template, {})
 
     # Visualize on RViz
     pkg_desplate_common = get_package_share_directory('desplate_common')
     visualize = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
             pkg_desplate_common, 'launch', 'visualize.launch.py')]),
-        launch_arguments=[('urdf_string', urdf_string)],
+        launch_arguments=[
+            ('description_str', description_str),
+            # Disable joint_state_publisher to reduce noise - it doesn't support SDF
+            ('enable_jsp', "false"),
+        ],
     )
 
     return LaunchDescription([
