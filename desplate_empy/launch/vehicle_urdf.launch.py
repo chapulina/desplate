@@ -30,7 +30,7 @@ def generate_launch_description():
     pkg = os.path.join(get_package_share_directory('desplate_empy'))
     template_path = os.path.join(pkg, 'urdf', 'vehicle.urdf.em')
 
-    # These 3 lines generate a URDF file from an EmPy template
+    # These 3 lines generate a description file from an EmPy template
     with open(template_path) as template_file:
         template = template_file.read()
     description_str = em.expand(template, {})

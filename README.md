@@ -58,6 +58,32 @@ Description formats:
 
 ## Try out all examples
 
+* EmPy + SDF @ launch time
+
+    `ros2 launch desplate_empy vehicle_sdf.launch.py`
+
+* EmPy + URDF @ launch time
+
+    `ros2 launch desplate_empy vehicle_urdf.launch.py`
+
+* ERB + SDF @ launch time
+
+    `ros2 launch desplate_erb vehicle_sdf.launch.py`
+
+* ERB + URDF @ launch time
+
+    `ros2 launch desplate_erb vehicle_urdf.launch.py`
+
+* Xacro + SDF @ launch time
+
+    `ros2 launch desplate_xacro vehicle_sdf.launch.py`
+
+* Xacro + URDF @ launch time
+
+    `ros2 launch desplate_xacro vehicle_urdf.launch.py`
+
+## How it works
+
 ### Launch time
 
 Generating description files at launch time is convenient if you're often
@@ -71,11 +97,11 @@ Generating templates at launch file follows these steps:
 
     https://github.com/chapulina/desplate/blob/a8b8ee40d91ddf1531cdbcda222b4d889bd4bb91/desplate_empy/launch/vehicle_sdf.launch.py#L30-L31
 
-1. Use the templating engine to generate a file using the templating engine,
-   and store it in a string variable.
+1. Use the templating engine to generate a file and store it in a string variable.
+   See each engine below.
 
 1. Pass that description string to another node. For robots, that's usually
-   `robot_state_publiser`, i.e.:
+   `robot_state_publisher`, i.e.:
 
     https://github.com/chapulina/desplate/blob/a8b8ee40d91ddf1531cdbcda222b4d889bd4bb91/desplate_common/launch/visualize.launch.py#L40-L45
 
@@ -88,33 +114,12 @@ EmPy template:
 
 https://github.com/chapulina/desplate/blob/a8b8ee40d91ddf1531cdbcda222b4d889bd4bb91/desplate_empy/launch/vehicle_sdf.launch.py#L33-L36
 
-Try it out:
-
-
-* SDF
-
-    `ros2 launch desplate_empy vehicle_sdf.launch.py`
-
-* URDF
-
-    `ros2 launch desplate_empy vehicle_urdf.launch.py`
-
 #### ERB
 
 Add this line to a launch file in order to generate a description from an
 ERB template:
 
 https://github.com/chapulina/desplate/blob/a8b8ee40d91ddf1531cdbcda222b4d889bd4bb91/desplate_erb/launch/vehicle.launch.py#L32-L33
-
-Try it out:
-
-* SDF
-
-    `ros2 launch desplate_erb vehicle_sdf.launch.py`
-
-* URDF
-
-    `ros2 launch desplate_erb vehicle_urdf.launch.py`
 
 #### Xacro
 
@@ -123,19 +128,9 @@ Xacro template:
 
 https://github.com/chapulina/desplate/blob/a8b8ee40d91ddf1531cdbcda222b4d889bd4bb91/desplate_xacro/launch/vehicle.launch.py#L33-L34
 
-Try it out:
-
-* SDF
-
-    `ros2 launch desplate_xacro vehicle_sdf.launch.py`
-
-* URDF
-
-    `ros2 launch desplate_xacro vehicle_urdf.launch.py`
-
 ### Compile time
 
-Generating description files at compile time is convenient if you're not
+Generating description files at compile time is efficient if you're not
 iterating on parameters for those files. If your files often take different
 configurations, consider generating them at launch time.
 

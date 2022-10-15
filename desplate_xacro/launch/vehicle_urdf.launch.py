@@ -30,7 +30,7 @@ def generate_launch_description():
     pkg = os.path.join(get_package_share_directory('desplate_xacro'))
     template_path = os.path.join(pkg, 'urdf', 'vehicle.urdf.xacro')
 
-    # This line generates a URDF file from a Xacro template
+    # This line generates a description file from a Xacro template
     template_str = xacro.process_file(template_path).toxml()
 
     # Visualize on RViz

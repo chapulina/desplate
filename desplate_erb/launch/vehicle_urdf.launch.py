@@ -29,7 +29,7 @@ def generate_launch_description():
     pkg = os.path.join(get_package_share_directory('desplate_erb'))
     template_path = os.path.join(pkg, 'urdf', 'vehicle.urdf.erb')
 
-    # This line generates a URDF file from an ERB template
+    # This line generates a description file from an ERB template
     description_str = subprocess.run(['erb', template_path], capture_output=True).stdout.decode()
 
     # Visualize on RViz
