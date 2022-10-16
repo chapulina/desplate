@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Generate vehicle templated with Xacro and visualize on RViz."""
+"""Launch vehicle generated with EmPy at compile time and visualize on RViz."""
 
 import os
 
@@ -22,16 +22,15 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
-import xacro
-
 
 def generate_launch_description():
 
+    # Load installed file
     pkg = os.path.join(get_package_share_directory('desplate_xacro'))
-    template_path = os.path.join(pkg, 'sdf', 'vehicle.sdf.xacro')
+    description_path = os.path.join(pkg, 'sdf', 'vehicle.sdf')
 
-    # This line generates a description file from a Xacro template
-    description_str = xacro.process_file(template_path).toxml()
+    with open(description_path, 'r') as description_file:
+        description_str = description_file.read().replace('\n', '')
 
     # Visualize on RViz
     pkg_desplate_common = get_package_share_directory('desplate_common')
