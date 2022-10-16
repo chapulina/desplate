@@ -33,7 +33,7 @@ def template_path(file_path):
   return os.path.join(pkg, "sdf", file_path)
 
 def material(color_name):
-    """Prints a materisl with a given color"""
+    """Prints a material with a given color"""
     if color_name == "grey":
         color = "0.8 0.8 0.8 1"
     elif color_name == "black":
