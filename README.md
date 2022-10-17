@@ -103,8 +103,6 @@ Generate templates at launch file following these steps:
 
     https://github.com/chapulina/desplate/blob/a8b8ee40d91ddf1531cdbcda222b4d889bd4bb91/desplate_common/launch/visualize_generate.launch.py#L40-L45
 
-TODO: pass parameters at launch time
-
 #### EmPy
 
 Add these lines to a launch file to generate a description from an
@@ -186,6 +184,4 @@ TODO
 Or to compare URDF and SDF:
 
 TODO
-
-
 
