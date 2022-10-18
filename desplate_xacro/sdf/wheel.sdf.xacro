@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<sdf xmlns:xacro="http://www.ros.org/wiki/xacro" >
-
+<sdf xmlns:xacro="http://www.ros.org/wiki/xacro">
   <!-- Generates one of the actuated cylindrical wheels -->
   <xacro:macro name="wheel" params="side">
     <xacro:if value="${side == 'left'}">
@@ -9,17 +8,16 @@
     <xacro:if value="${side == 'right'}">
       <xacro:property name="offset_y" value="-${wheel_offset_y}"/>
     </xacro:if>
-
     <!-- TODO(chapulina) Use revolute - currently doesn't work with joint_state_publisher -->
     <joint name="${side}_wheel_joint" type="fixed">
-        <parent>chassis</parent>
-        <child>${side}_wheel</child>
-        <axis>
-          <xyz>0 0 1</xyz>
-        </axis>
+      <parent>chassis</parent>
+      <child>${side}_wheel</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+      </axis>
     </joint>
     <link name="${side}_wheel">
-        <pose>
+      <pose>
           ${wheel_offset_x}
           ${offset_y}
           ${wheel_offset_z}
@@ -27,29 +25,27 @@
           0
           0
         </pose>
-        <visual name="visual">
-            <geometry>
-              <cylinder>
-                <radius>${wheel_radius}</radius>
-                <length>${wheel_length}</length>
-              </cylinder>
-            </geometry>
-            <xacro:material_macro
-              color_name="black"/>
-        </visual>
-        <collision name="collision">
-            <geometry>
-              <cylinder>
-                <radius>${wheel_radius}</radius>
-                <length>${wheel_length}</length>
-              </cylinder>
-            </geometry>
-        </collision>
-            <xacro:inertial_cylinder
-                mass="${wheel_mass}"
-                radius="${wheel_radius}"
-                length="${wheel_length}"/>
+      <visual name="visual">
+        <geometry>
+          <cylinder>
+            <radius>${wheel_radius}</radius>
+            <length>${wheel_length}</length>
+          </cylinder>
+        </geometry>
+        <xacro:material_macro color_name="black"/>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <radius>${wheel_radius}</radius>
+            <length>${wheel_length}</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <xacro:inertial_cylinder
+        mass="${wheel_mass}"
+        radius="${wheel_radius}"
+        length="${wheel_length}"/>
     </link>
   </xacro:macro>
-
 </sdf>

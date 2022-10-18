@@ -34,62 +34,59 @@ def template_path(file_path):
 
 }@
 <robot name="vehicle">
-
-    <material name="grey">
-        <color rgba="0.8 0.8 0.8 1" />
-    </material>
-
-    <material name="black">
-        <color rgba="0 0 0 1"/>
-    </material>
-
-    <link name="chassis">
-        <visual>
-            <geometry>
-                <box size="@(chassis_size[0]) @(chassis_size[1]) @(chassis_size[2])"/>
-            </geometry>
-            <material name="grey"/>
-        </visual>
-        <collision>
-            <geometry>
-                <box size="@(chassis_size[0]) @(chassis_size[1]) @(chassis_size[2])"/>
-            </geometry>
-        </collision>
+  <material name="grey">
+    <color rgba="0.8 0.8 0.8 1" />
+  </material>
+  <material name="black">
+    <color rgba="0 0 0 1"/>
+  </material>
+  <link name="chassis">
+    <visual>
+      <geometry>
+        <box size="@(chassis_size[0]) @(chassis_size[1]) @(chassis_size[2])"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="@(chassis_size[0]) @(chassis_size[1]) @(chassis_size[2])"/>
+      </geometry>
+    </collision>
 @{
 empy.include(template_path("inertial_box.urdf.em"), {
   "mass": chassis_mass,
   "size": chassis_size
 })
 }@
-    </link>
+  </link>
 
 @{empy.include(template_path("wheel.urdf.em"), {"side": "left"})}@
 @{empy.include(template_path("wheel.urdf.em"), {"side": "right"})}@
 
-    <!-- caster -->
-    <joint name="caster_wheel_joint" type="fixed">
-        <parent link="chassis"/>
-        <child link="caster_wheel"/>
-        <origin xyz="@(caster_offset[0]) @(caster_offset[1]) @(caster_offset[2])"/>
-    </joint>
-    <link name="caster_wheel">
-        <visual>
-            <geometry>
-                <sphere radius="@(caster_radius)"/>
-            </geometry>
-            <material name="black"/>
-        </visual>
-        <collision>
-            <geometry>
-                <sphere radius="@(caster_radius)"/>
-            </geometry>
-        </collision>
+  <!-- caster -->
+  <joint name="caster_wheel_joint" type="fixed">
+    <parent link="chassis"/>
+    <child link="caster_wheel"/>
+    <origin xyz="@(caster_offset[0]) @(caster_offset[1]) @(caster_offset[2])"/>
+  </joint>
+  <link name="caster_wheel">
+    <visual>
+      <geometry>
+        <sphere radius="@(caster_radius)"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="@(caster_radius)"/>
+      </geometry>
+    </collision>
 @{
 empy.include(template_path("inertial_sphere.urdf.em"), {
   "mass": caster_mass,
   "radius": caster_radius
 })
 }@
-    </link>
+  </link>
 
 </robot>

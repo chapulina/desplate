@@ -49,38 +49,37 @@ def material(color_name):
 }@
 <sdf version="1.7">
 <model name="vehicle">
-
-    <link name="chassis">
-        <visual name="visual">
-            <geometry>
-                <box>
-                    <size>
-                      @(chassis_size[0])
-                      @(chassis_size[1])
-                      @(chassis_size[2])
-                    </size>
-                </box>
-            </geometry>
-            @(material("grey"))
-        </visual>
-        <collision name="collision">
-            <geometry>
-                <box>
-                    <size>
-                      @(chassis_size[0])
-                      @(chassis_size[1])
-                      @(chassis_size[2])
-                    </size>
-                </box>
-            </geometry>
-        </collision>
+  <link name="chassis">
+    <visual name="visual">
+      <geometry>
+        <box>
+          <size>
+            @(chassis_size[0])
+            @(chassis_size[1])
+            @(chassis_size[2])
+          </size>
+        </box>
+      </geometry>
+      @(material("grey"))
+    </visual>
+    <collision name="collision">
+      <geometry>
+        <box>
+          <size>
+            @(chassis_size[0])
+            @(chassis_size[1])
+            @(chassis_size[2])
+          </size>
+        </box>
+      </geometry>
+    </collision>
 @{
 empy.include(template_path("inertial_box.sdf.em"), {
   "mass": chassis_mass,
   "size": chassis_size
 })
 }@
-    </link>
+  </link>
 
 @{empy.include(template_path("wheel.sdf.em"), {"side": "left"})}@
 @{empy.include(template_path("wheel.sdf.em"), {"side": "right"})}@
@@ -88,38 +87,38 @@ empy.include(template_path("inertial_box.sdf.em"), {
     <!-- caster -->
     <!-- TODO(chapulina) Use ball - currently doesn't work with joint_state_publisher -->
     <joint name="caster_wheel_joint" type="fixed">
-        <parent>chassis</parent>
-        <child>caster_wheel</child>
+      <parent>chassis</parent>
+      <child>caster_wheel</child>
     </joint>
     <link name="caster_wheel">
-        <pose>
-          @(caster_offset[0])
-          @(caster_offset[1])
-          @(caster_offset[2])
-          0 0 0
-        </pose>
-        <visual name="visual">
-            <geometry>
-                <sphere>
-                  <radius>@(caster_radius)</radius>
-                </sphere>
-            </geometry>
-            @(material("black"))
-        </visual>
-        <collision name="collision">
-            <geometry>
-                <sphere>
-                  <radius>@(caster_radius)</radius>
-                </sphere>
-            </geometry>
-        </collision>
+      <pose>
+        @(caster_offset[0])
+        @(caster_offset[1])
+        @(caster_offset[2])
+        0 0 0
+      </pose>
+      <visual name="visual">
+        <geometry>
+          <sphere>
+            <radius>@(caster_radius)</radius>
+          </sphere>
+        </geometry>
+        @(material("black"))
+      </visual>
+      <collision name="collision">
+        <geometry>
+            <sphere>
+              <radius>@(caster_radius)</radius>
+            </sphere>
+        </geometry>
+      </collision>
 @{
 empy.include(template_path("inertial_sphere.sdf.em"), {
   "mass": caster_mass,
   "radius": caster_radius
 })
 }@
-    </link>
+  </link>
 
 </model>
 </sdf>

@@ -3,7 +3,8 @@
 This repository contains various examples for how to template
 description files in ROS 2. Each example demonstrates the
 use of a **templating engine**, with a **description format**,
-at **compile time** or **launch time**.
+at **compile time** or **launch time**. All examples have the **same
+final result**, which makes it easy to compare them side-by-side.
 
 Templating engines:
 
@@ -51,7 +52,8 @@ pull request to add it!
     ros2 launch desplate_empy vehicle_sdf_generate.launch.py
     ```
 
-1. You should see a differential drive robot (like [dolly](https://github.com/chapulina/dolly)) on RViz:
+1. You should see a differential drive robot (like
+   [dolly](https://github.com/chapulina/dolly)) on RViz:
 
     ![vehicle_rviz](images/vehicle_rviz.png)
 
@@ -89,11 +91,11 @@ Generate templates at launch file following these steps:
 
 1. Install all template files, i.e.:
 
-    TODO
+    https://github.com/chapulina/desplate/blob/86b7960169b02fc4fbd4765f9fe9e1342af3ac33/desplate_empy/CMakeLists.txt#L39-L46
 
 1. In a launch file, get the path to the installed template file, for example:
 
-    https://github.com/chapulina/desplate/blob/a8b8ee40d91ddf1531cdbcda222b4d889bd4bb91/desplate_empy/launch/vehicle_sdf_generate.launch.py#L30-L31
+    https://github.com/chapulina/desplate/blob/86b7960169b02fc4fbd4765f9fe9e1342af3ac33/desplate_empy/launch/vehicle_sdf_generate.launch.py#L30-L31
 
 1. Use the templating engine to generate a file and store it in a string variable.
    **See each engine below**.
@@ -101,28 +103,28 @@ Generate templates at launch file following these steps:
 1. Pass that description string to another node. For robots, that's usually
    `robot_state_publisher`, i.e.:
 
-    https://github.com/chapulina/desplate/blob/a8b8ee40d91ddf1531cdbcda222b4d889bd4bb91/desplate_common/launch/visualize_generate.launch.py#L40-L45
+    https://github.com/chapulina/desplate/blob/86b7960169b02fc4fbd4765f9fe9e1342af3ac33/desplate_common/launch/visualize.launch.py#L40-L45
 
 #### EmPy
 
 Add these lines to a launch file to generate a description from an
 EmPy template:
 
-https://github.com/chapulina/desplate/blob/a8b8ee40d91ddf1531cdbcda222b4d889bd4bb91/desplate_empy/launch/vehicle_sdf_generate.launch.py#L33-L36
+https://github.com/chapulina/desplate/blob/86b7960169b02fc4fbd4765f9fe9e1342af3ac33/desplate_empy/launch/vehicle_sdf_generate.launch.py#L33-L36
 
 #### ERB
 
 Add this line to a launch file to generate a description from an
 ERB template:
 
-https://github.com/chapulina/desplate/blob/a8b8ee40d91ddf1531cdbcda222b4d889bd4bb91/desplate_erb/launch/vehicle_generate.launch.py#L32-L33
+https://github.com/chapulina/desplate/blob/86b7960169b02fc4fbd4765f9fe9e1342af3ac33/desplate_erb/launch/vehicle_sdf_generate.launch.py#L32-L33
 
 #### Xacro
 
 Add this line to a launch file to generate a description from a
 Xacro template:
 
-https://github.com/chapulina/desplate/blob/a8b8ee40d91ddf1531cdbcda222b4d889bd4bb91/desplate_xacro/launch/vehicle_generate.launch.py#L33-L34
+https://github.com/chapulina/desplate/blob/86b7960169b02fc4fbd4765f9fe9e1342af3ac33/desplate_xacro/launch/vehicle_sdf_generate.launch.py#L33-L34
 
 ### Compile time
 
@@ -135,41 +137,42 @@ launch time.
 Generate templates at compile file following these steps:
 
 1. Invoke the templating engine with CMake to generate the description into the
-   `build` directory. See each engine below.
+   `build` directory. One way to do it is creating a custom command and making
+   a target that depends on it. The difference for each engine will be what
+   command is invoked, **see below for each engine**.
 
-1. Install the generated description:
+    https://github.com/chapulina/desplate/blob/86b7960169b02fc4fbd4765f9fe9e1342af3ac33/desplate_empy/CMakeLists.txt#L11-L20
 
-    TODO
+1. Install the generated description, i.e.:
 
-1. In a launch file, find the installed description and store it in a string:
+    https://github.com/chapulina/desplate/blob/86b7960169b02fc4fbd4765f9fe9e1342af3ac33/desplate_empy/CMakeLists.txt#L47-L54
 
-    TODO
+1. In a launch file, find the installed description and store it in a string, i.e.:
+
+    https://github.com/chapulina/desplate/blob/86b7960169b02fc4fbd4765f9fe9e1342af3ac33/desplate_empy/launch/vehicle_sdf_installed.launch.py#L28-L33
 
 1. Pass that description string to another node. For robots, that's usually
    `robot_state_publisher`, i.e.:
 
-    https://github.com/chapulina/desplate/blob/a8b8ee40d91ddf1531cdbcda222b4d889bd4bb91/desplate_common/launch/visualize_generate.launch.py#L40-L45
+    https://github.com/chapulina/desplate/blob/86b7960169b02fc4fbd4765f9fe9e1342af3ac33/desplate_common/launch/visualize.launch.py#L40-L45
 
 #### EmPy
 
-Add these lines to a CMake file to generate a description from an
-EmPy template:
+Invoke `empy` on `.em` files from the custom CMake command:
 
-TODO
+https://github.com/chapulina/desplate/blob/86b7960169b02fc4fbd4765f9fe9e1342af3ac33/desplate_empy/CMakeLists.txt#L14-L16
 
 #### ERB
 
-Add these lines to a CMake file to generate a description from an
-ERB template:
+Invoke `erb` on `.erb` files from the custom CMake command:
 
-TODO
+https://github.com/chapulina/desplate/blob/86b7960169b02fc4fbd4765f9fe9e1342af3ac33/desplate_erb/CMakeLists.txt#L14-L16
 
 #### Xacro
 
-Add these lines to a CMake file to generate a description from a
-Xacro template:
+Invoke `xacro` on `.xacro` files from the custom CMake command:
 
-TODO
+https://github.com/chapulina/desplate/blob/86b7960169b02fc4fbd4765f9fe9e1342af3ac33/desplate_xacro/CMakeLists.txt#L14-L16
 
 ## Compare
 
@@ -179,9 +182,9 @@ like [Meld](https://meldmerge.org/) to see these files side-by-side.
 
 For example, to compare Xacro and EmPy:
 
-TODO
+![diff Xacro EmPy](images/diff_xacro_empy.png)
 
 Or to compare URDF and SDF:
 
-TODO
+![diff URDF SDF](images/diff_urdf_sdf.png)
 

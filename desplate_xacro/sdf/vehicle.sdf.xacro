@@ -1,117 +1,103 @@
 <?xml version="1.0"?>
-<sdf version="1.7" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<sdf xmlns:xacro="http://www.ros.org/wiki/xacro" version="1.7">
   <model name="vehicle">
-
     <xacro:include filename="inertial_box.sdf.xacro"/>
     <xacro:include filename="inertial_cylinder.sdf.xacro"/>
     <xacro:include filename="inertial_sphere.sdf.xacro"/>
     <xacro:include filename="wheel.sdf.xacro"/>
-
     <!-- Inputs -->
-
-    <xacro:property name="chassis_size_x" value="1.0" />
-    <xacro:property name="chassis_size_y" value="0.5" />
-    <xacro:property name="chassis_size_z" value="0.15" />
-    <xacro:property name="chassis_mass" value="1.0" />
-
-    <xacro:property name="wheel_radius" value="0.15" />
-    <xacro:property name="wheel_length" value="0.05" />
-    <xacro:property name="wheel_mass" value="0.5" />
-
-    <xacro:property name="caster_radius" value="0.1" />
-    <xacro:property name="caster_mass" value="0.0415553" />
-
+    <xacro:property name="chassis_size_x" value="1.0"/>
+    <xacro:property name="chassis_size_y" value="0.5"/>
+    <xacro:property name="chassis_size_z" value="0.15"/>
+    <xacro:property name="chassis_mass" value="1.0"/>
+    <xacro:property name="wheel_radius" value="0.15"/>
+    <xacro:property name="wheel_length" value="0.05"/>
+    <xacro:property name="wheel_mass" value="0.5"/>
+    <xacro:property name="caster_radius" value="0.1"/>
+    <xacro:property name="caster_mass" value="0.0415553"/>
     <!-- Calculated properties -->
-    <xacro:property name="wheel_offset_x" value="${chassis_size_x * 0.3}" />
-    <xacro:property name="wheel_offset_y" value="${(chassis_size_y + wheel_length) * 0.5}" />
-    <xacro:property name="wheel_offset_z" value="${-wheel_radius * 0.5}" />
-
-    <xacro:property name="caster_offset_x" value="${-chassis_size_x * 0.3}" />
-    <xacro:property name="caster_offset_y" value="0" />
-    <xacro:property name="caster_offset_z" value="${-(chassis_size_z + caster_radius) * 0.5}" />
-
+    <xacro:property name="wheel_offset_x" value="${chassis_size_x * 0.3}"/>
+    <xacro:property name="wheel_offset_y" value="${(chassis_size_y + wheel_length) * 0.5}"/>
+    <xacro:property name="wheel_offset_z" value="${-wheel_radius * 0.5}"/>
+    <xacro:property name="caster_offset_x" value="${-chassis_size_x * 0.3}"/>
+    <xacro:property name="caster_offset_y" value="0"/>
+    <xacro:property name="caster_offset_z" value="${-(chassis_size_z + caster_radius) * 0.5}"/>
     <xacro:macro name="material_macro" params="color_name">
-        <xacro:if value="${color_name == 'grey'}">
-          <xacro:property name="color" value="0.8 0.8 0.8 1"/>
-        </xacro:if>
-        <xacro:if value="${color_name == 'black'}">
-          <xacro:property name="color" value="0 0 0 1"/>
-        </xacro:if>
-        <material>
-          <diffuse>${color}</diffuse>
-          <specular>${color}</specular>
-          <ambient>${color}</ambient>
-        </material>
+      <xacro:if value="${color_name == 'grey'}">
+        <xacro:property name="color" value="0.8 0.8 0.8 1"/>
+      </xacro:if>
+      <xacro:if value="${color_name == 'black'}">
+        <xacro:property name="color" value="0 0 0 1"/>
+      </xacro:if>
+      <material>
+        <diffuse>${color}</diffuse>
+        <specular>${color}</specular>
+        <ambient>${color}</ambient>
+      </material>
     </xacro:macro>
-
     <link name="chassis">
-        <visual name="visual">
-            <geometry>
-                <box>
-                    <size>
-                      ${chassis_size_x}
-                      ${chassis_size_y}
-                      ${chassis_size_z}
-                    </size>
-                </box>
-            </geometry>
-            <xacro:material_macro
-              color_name="grey"/>
-        </visual>
-        <collision name="collision">
-            <geometry>
-                <box>
-                    <size>
-                      ${chassis_size_x}
-                      ${chassis_size_y}
-                      ${chassis_size_z}
-                    </size>
-                </box>
-            </geometry>
-        </collision>
-        <xacro:inertial_box
-          mass="${chassis_mass}"
-          x="${chassis_size_x}"
-          y="${chassis_size_y}"
-          z="${chassis_size_z}"/>
+      <visual name="visual">
+        <geometry>
+          <box>
+            <size>
+               ${chassis_size_x}
+               ${chassis_size_y}
+               ${chassis_size_z}
+             </size>
+          </box>
+        </geometry>
+        <xacro:material_macro color_name="grey"/>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <box>
+            <size>
+              ${chassis_size_x}
+              ${chassis_size_y}
+              ${chassis_size_z}
+            </size>
+          </box>
+        </geometry>
+      </collision>
+      <xacro:inertial_box
+        mass="${chassis_mass}"
+        x="${chassis_size_x}"
+        y="${chassis_size_y}"
+        z="${chassis_size_z}"/>
     </link>
-
     <xacro:wheel side="left"/>
     <xacro:wheel side="right"/>
-
     <!-- caster -->
     <!-- TODO(chapulina) Use ball - currently doesn't work with joint_state_publisher -->
     <joint name="caster_wheel_joint" type="fixed">
-        <parent>chassis</parent>
-        <child>caster_wheel</child>
+      <parent>chassis</parent>
+      <child>caster_wheel</child>
     </joint>
     <link name="caster_wheel">
-        <pose>
+      <pose>
           ${caster_offset_x}
           ${caster_offset_y}
           ${caster_offset_z}
           0 0 0
         </pose>
-        <visual name="visual">
-            <geometry>
-                <sphere>
-                  <radius>${caster_radius}</radius>
-                </sphere>
-            </geometry>
-            <xacro:material_macro
-              color_name="black"/>
-        </visual>
-        <collision name="collision">
-            <geometry>
-                <sphere>
-                  <radius>${caster_radius}</radius>
-                </sphere>
-            </geometry>
-        </collision>
-        <xacro:inertial_sphere
-          mass="${caster_mass}"
-          radius="${caster_radius}"/>
+      <visual name="visual">
+        <geometry>
+          <sphere>
+            <radius>${caster_radius}</radius>
+          </sphere>
+        </geometry>
+        <xacro:material_macro color_name="black"/>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <sphere>
+            <radius>${caster_radius}</radius>
+          </sphere>
+        </geometry>
+      </collision>
+      <xacro:inertial_sphere
+        mass="${caster_mass}"
+        radius="${caster_radius}"/>
     </link>
-
-</model>
+  </model>
 </sdf>

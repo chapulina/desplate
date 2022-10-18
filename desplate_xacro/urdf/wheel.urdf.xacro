@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <!-- Generates one of the actuated cylindrical wheels -->
   <xacro:macro name="wheel" params="side">
@@ -11,29 +11,29 @@
     </xacro:if>
 
     <joint name="${side}_wheel_joint" type="continuous">
-        <parent link="chassis"/>
-        <child link="${side}_wheel"/>
-        <origin
-          xyz="${wheel_x_offset} ${y_offset} ${wheel_z_offset}"
-          rpy="-${pi*0.5} 0 0" />
-        <axis xyz="0 0 1"/>
+      <parent link="chassis"/>
+      <child link="${side}_wheel"/>
+      <origin
+        xyz="${wheel_x_offset} ${y_offset} ${wheel_z_offset}"
+        rpy="-${pi*0.5} 0 0" />
+      <axis xyz="0 0 1"/>
     </joint>
     <link name="${side}_wheel">
-        <visual>
-            <geometry>
-                <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
-            </geometry>
-            <material name="black"/>
-        </visual>
-        <collision>
-            <geometry>
-                <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
-            </geometry>
-        </collision>
-        <xacro:inertial_cylinder
-            mass="${wheel_mass}"
-            radius="${wheel_radius}"
-            length="${wheel_length}"/>
+      <visual>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+        </geometry>
+        <material name="black"/>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+        </geometry>
+      </collision>
+      <xacro:inertial_cylinder
+        mass="${wheel_mass}"
+        radius="${wheel_radius}"
+        length="${wheel_length}"/>
     </link>
   </xacro:macro>
 
