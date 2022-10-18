@@ -63,7 +63,7 @@ pull request to add it!
 
 ## Try out all examples
 
-Templating engine | Format | Generated when? | Command
+Templating engine | Format | Stage | Command
 ------------------|--------|-----------------|--------
 EmPy | SDF | launch | `ros2 launch desplate_empy vehicle_sdf_generate.launch.py`
 EmPy | URDF | launch | `ros2 launch desplate_empy vehicle_urdf_generate.launch.py`
